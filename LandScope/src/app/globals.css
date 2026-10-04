@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+@import "leaflet/dist/leaflet.css";
+
+@layer base {
+  :root {
+    /* Primary Background: Deep Space Titanium & Obsidian Navy */
+    --background: #030712;
+    --background-surface: #060e1a;
+    --background-card: #0a1526;
+    --background-panel: #0e1d35;
+    --foreground: #f8fafc;
+    --foreground-muted: #94a3b8;
+
+    /* Secondary: Deep Command Sapphire */
+    --sapphire-950: #040914;
+    --sapphire-900: #071326;
+    --sapphire-800: #0b1c38;
+    --sapphire-700: #10274e;
+    --sapphire-600: #19386c;
+
+    /* Primary Brand Accent: Electric Azure / Precision Blue */
+    --azure-primary: #3b82f6;
+    --azure-light: #60a5fa;
+    --azure-glow: #93c5fd;
+    --azure-dark: #1d4ed8;
+
+    /* Secondary Accent: Satellite Cyan */
+    --cyan-primary: #38bdf8;
+    --cyan-light: #7dd3fc;
+    --cyan-dark: #0284c7;
+
+    /* Sovereign Cadastral Accent: Solar Gold */
+    --gold-primary: #f59e0b;
+    --gold-light: #fbbf24;
+    --gold-dark: #d97706;
+
+    /* Status Accents */
+    --warning-amber: #f59e0b;
+    --critical-coral: #f43f5e;
+    --success-emerald: #10b981;
+    --info-cyan: #38bdf8;
+
+    /* Border & Glass Tokens */
+    --border-glass: rgba(59, 130, 246, 0.18);
+    --border-glass-bright: rgba(56, 189, 248, 0.35);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --card: #0a1526;
+    --card-foreground: #f8fafc;
+    --border: rgba(59, 130, 246, 0.16);
+    --input: #060e1a;
+    --ring: #3b82f6;
+  }
+
+  /* High contrast mode */
+  .high-contrast {
+    --background: #000000;
+    --background-surface: #040404;
+    --background-card: #080808;
+    --foreground: #ffffff;
+    --border-glass: #ffffff;
+    --azure-primary: #60a5fa;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Master Precision Scientific Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.35);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.65);
+}
+
+/* Glass Surfaces - Command Sapphire & Titanium */
+.glass-panel-primary {
+  background: rgba(10, 21, 38, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(147, 197, 253, 0.08);
+}
+
+.glass-panel-secondary {
+  background: rgba(6, 14, 28, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.45);
+}
+
+.glass-panel-floating {
+  background: rgba(14, 29, 53, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(59, 130, 246, 0.15);
+}
+
+/* Atmospheric Vignette for 3D Earth Canvas */
+.bg-radial-vignette {
+  background: radial-gradient(
+    circle at center,
+    transparent 35%,
+    rgba(3, 7, 18, 0.75) 80%,
+    rgba(3, 7, 18, 0.98) 100%
+  );
+}
+
+/* Topographic & Cadastral Grid Patterns: Azure & Cyan */
+.topo-grid {
+  background-image: 
+    linear-gradient(to right, rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.topo-grid-dense {
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Glow Utilities */
+.glow-azure {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+}
+
+/* Backward-compatible glow classes remapped to vibrant modern accents */
+.glow-emerald {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+}
+
+.glow-sand {
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+}
+
+/* Text glow */
+.text-glow-azure {
+  text-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+}
+
+.text-glow-emerald {
+  text-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+}
+
+/* Tabular numbers for scientific precision */
+.font-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Card 3D Tilt Container */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.card-tilt-hover {
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
+  will-change: transform;
+}
+
+.card-tilt-hover:hover {
+  transform: translateY(-2px) scale(1.008);
+}
+
+/* Animated Scanner Line */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+/* Pulse Glow Keyframes */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}

@@ -1,0 +1,467 @@
+{
+  "total": 51,
+  "passed": 50,
+  "failed": 0,
+  "warnings": 1,
+  "results": [
+    {
+      "testId": "A.1-RESEARCHER",
+      "section": "AUTHENTICATION",
+      "description": "Login as RESEARCHER (researcher@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=RESEARCHER, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=RESEARCHER",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.1-POLICYMAKER",
+      "section": "AUTHENTICATION",
+      "description": "Login as POLICYMAKER (policymaker@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=POLICYMAKER, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=POLICYMAKER",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.1-GOVERNMENT_AGENCY",
+      "section": "AUTHENTICATION",
+      "description": "Login as GOVERNMENT_AGENCY (agency@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=GOVERNMENT_AGENCY, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=GOVERNMENT_AGENCY",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.1-ACADEMIC_INSTITUTION",
+      "section": "AUTHENTICATION",
+      "description": "Login as ACADEMIC_INSTITUTION (academic@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=ACADEMIC_INSTITUTION, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=ACADEMIC_INSTITUTION",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.1-PUBLIC",
+      "section": "AUTHENTICATION",
+      "description": "Login as PUBLIC (public@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=PUBLIC, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=PUBLIC",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.1-ADMIN",
+      "section": "AUTHENTICATION",
+      "description": "Login as ADMIN (admin@landscope.demo)",
+      "expected": "HTTP 200, success=true, roleCode=ADMIN, auth cookie set",
+      "actual": "HTTP 200, success=true, roleCode=ADMIN",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.2",
+      "section": "AUTHENTICATION",
+      "description": "Logout clears session cookie",
+      "expected": "HTTP 200, session cookie cleared/expired",
+      "actual": "HTTP 200, cookie cleared: true",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.3",
+      "section": "AUTHENTICATION",
+      "description": "Session persistence across sequential requests",
+      "expected": "HTTP 200 on /api/auth/me and /api/research/projects",
+      "actual": "me=200, projects=200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.4",
+      "section": "AUTHENTICATION",
+      "description": "Invalid session token rejected",
+      "expected": "HTTP 401 Unauthorized",
+      "actual": "HTTP 401",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.5",
+      "section": "AUTHENTICATION",
+      "description": "Unauthenticated page access redirects to /login",
+      "expected": "HTTP 307/302 Redirect to /login",
+      "actual": "HTTP 307, Location: /login?redirect=%2Fapp%2Fresearcher",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "A.6",
+      "section": "AUTHENTICATION",
+      "description": "Unauthenticated protected APIs return 401",
+      "expected": "HTTP 401 on all endpoints",
+      "actual": "{\"/api/auth/me\":401,\"/api/research/projects\":401,\"/api/policy/scenarios\":401,\"/api/gis/intelligence\":401}",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.1",
+      "section": "RBAC SECURITY",
+      "description": "Researcher navigating to /app/policymaker shows Access Denied",
+      "expected": "Page renders Access Denied UI",
+      "actual": "Status 200, Access Denied Rendered: true",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.2",
+      "section": "RBAC SECURITY",
+      "description": "Researcher calling /api/policy/scenarios rejected",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.3",
+      "section": "RBAC SECURITY",
+      "description": "Policymaker accessing private researcher project data rejected",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.4",
+      "section": "RBAC SECURITY",
+      "description": "Public user denied Policy Lab workspace and API access",
+      "expected": "Access Denied UI & HTTP 403",
+      "actual": "Page Access Denied: true, API Status: 403",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.5",
+      "section": "RBAC SECURITY",
+      "description": "Cookie role manipulation attack rejected",
+      "expected": "HTTP 401 Unauthorized (signature invalid)",
+      "actual": "HTTP 401",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "B.6",
+      "section": "RBAC SECURITY",
+      "description": "Admin role has authorized access to admin and policy APIs",
+      "expected": "HTTP 200 on /api/admin/users and /api/policy/scenarios",
+      "actual": "admin/users=200, policy/scenarios=200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "C.1",
+      "section": "RESEARCH -> GIS",
+      "description": "Research Evidence spatial context transfers to Land Intelligence",
+      "expected": "State: Madhya Pradesh, District: Sehore loaded in GIS",
+      "actual": "GIS Status: 200, Loaded District: Sehore",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "D.1",
+      "section": "GIS -> POLICY LAB",
+      "description": "Geography passed from GIS URL parameters appears in Policy Lab without reselection",
+      "expected": "Shows Sehore, Madhya Pradesh and tehsil Ashta",
+      "actual": "Status: 200, hasDistrict: true, hasTehsil: true",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "E.1",
+      "section": "POLICY -> RESEARCH",
+      "description": "Policy Lab results link back to Supporting Research evidence records",
+      "expected": "Returns cited research study with author/agency and empirical basis",
+      "actual": "Status: 200, Cited: 'Tenure Insecurity and Agricultural Credit Accessibility in Central India', Agency: 'NITI Aayog & NCAER'",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "F.1",
+      "section": "POLICY -> REPORTS",
+      "description": "Policy Simulation context handoff contains all required Report Brief fields",
+      "expected": "Contains Geography, Baseline, Scenario, Parameters, Impacts, Evidence, Limitations",
+      "actual": "hasRequiredFields: true, Sector Impacts count: 6",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "G.1",
+      "section": "DATA CONSISTENCY",
+      "description": "Geography baseline metrics match across GIS and Policy Digital Twin",
+      "expected": "Agriculture 52.1% in both GIS and Policy Baseline; Aquifer recharge index 44",
+      "actual": "GIS Agri: 52.1%, Policy Baseline Agri: 52.1%, Aquifer: 44",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "H.1",
+      "section": "DEMO DATA INTEGRITY",
+      "description": "No fabricated official government data or uncalibrated claims",
+      "expected": "0 forbidden misleading phrases found in production code",
+      "actual": "Violations found: 0",
+      "status": "PASSED",
+      "details": "All data clearly labeled Illustrative Demo / Model Output"
+    },
+    {
+      "testId": "I.1",
+      "section": "ERROR HANDLING",
+      "description": "Non-existent project ID returns 404 with clean JSON error",
+      "expected": "HTTP 404, error='NOT_FOUND'",
+      "actual": "HTTP 404, json.error='NOT_FOUND'",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "I.2",
+      "section": "ERROR HANDLING",
+      "description": "Malformed project creation (empty title) returns 400 Bad Request",
+      "expected": "HTTP 400, error='BAD_REQUEST'",
+      "actual": "HTTP 400, json.error='BAD_REQUEST'",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "I.3",
+      "section": "ERROR HANDLING",
+      "description": "Malformed scenario creation (empty title) returns 400 Bad Request",
+      "expected": "HTTP 400, error='BAD_REQUEST'",
+      "actual": "HTTP 400, json.error='BAD_REQUEST'",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "I.4",
+      "section": "ERROR HANDLING",
+      "description": "Non-existent why trail key returns 404 with clean JSON error",
+      "expected": "HTTP 404, error='NOT_FOUND'",
+      "actual": "HTTP 404, json.error='NOT_FOUND'",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/login",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /login",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/role-selection",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /role-selection",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/researcher",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/researcher",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/policymaker",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/policymaker",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/academic",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/academic",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/government",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/government",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/innovator",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/innovator",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/public",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/public",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/land-intelligence",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/land-intelligence",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/policy-lab",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/policy-lab",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/analytics",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/analytics",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/reports",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/reports",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/collaboration",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/collaboration",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/innovation",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/innovation",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/api",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/api",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/gis",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/gis",
+      "expected": "HTTP 307",
+      "actual": "HTTP 307",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/policy",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/policy",
+      "expected": "HTTP 307",
+      "actual": "HTTP 307",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "J.1-/app/research",
+      "section": "NAVIGATION",
+      "description": "Direct navigation to /app/research",
+      "expected": "HTTP 307",
+      "actual": "HTTP 307",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "K.1",
+      "section": "RESPONSIVENESS",
+      "description": "Workstation views use responsive flex/grid and Tailwind breakpoints for 1280, 1440, 1600, 1920 viewports",
+      "expected": "Responsive flex/grid and breakpoint utilities present across workstations",
+      "actual": "Verified on gov-header, gis-workstation, policy-lab, and researcher-workspace",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "L.1",
+      "section": "BUILD",
+      "description": "TypeScript validation (tsc --noEmit)",
+      "expected": "0 errors",
+      "actual": "0 errors",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "L.2",
+      "section": "BUILD",
+      "description": "ESLint validation (eslint --quiet)",
+      "expected": "0 errors",
+      "actual": "0 errors",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "L.3",
+      "section": "BUILD",
+      "description": "Production build compilation (next build)",
+      "expected": "0 errors, optimized production bundle generated",
+      "actual": "Compiled successfully in 1214ms, 24 static pages generated",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "testId": "L.4",
+      "section": "BUILD",
+      "description": "Next.js convention deprecation audit",
+      "expected": "Identify any framework deprecation notices",
+      "actual": "Middleware convention deprecated in Next 16 in favor of proxy.ts (Warning noted)",
+      "status": "WARNING",
+      "details": "Next.js 16 deprecation warning: middleware file convention is deprecated in favor of proxy. Migration can be done via codemod."
+    }
+  ]
+}

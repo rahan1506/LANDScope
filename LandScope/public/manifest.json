@@ -1,0 +1,17 @@
+{
+  "short_name": "Bhu-Mitra",
+  "name": "Bhu-Mitra — Sovereign Field Land Verification",
+  "icons": [
+    {
+      "src": "/globe.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/app/bhu-mitra",
+  "background_color": "#030712",
+  "theme_color": "#0ea5e9",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/app/bhu-mitra"
+}

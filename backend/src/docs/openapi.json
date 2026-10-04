@@ -1,0 +1,231 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "LANDScope Sovereign Land Governance API",
+    "version": "1.0.0",
+    "description": "Sovereign spatial intelligence, Copernicus Sentinel-2 satellite analysis, statutory legal harmonization, and court-admissible evidence documentation API for the Republic of India."
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "Version 1 REST Endpoint"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "description": "Returns status of database, storage, satellite, and LLM providers.",
+        "responses": {
+          "200": { "description": "System is healthy" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Officer Authentication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "JWT issued successfully" }
+        }
+      }
+    },
+    "/parcels": {
+      "get": {
+        "summary": "Search cadastral parcels",
+        "parameters": [
+          { "name": "query", "in": "query", "schema": { "type": "string" } },
+          { "name": "district", "in": "query", "schema": { "type": "string" } },
+          { "name": "state", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "List of parcels" }
+        }
+      }
+    },
+    "/parcels/{id}/ndvi": {
+      "get": {
+        "summary": "Calculate parcel NDVI vegetation index",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Current vs baseline NDVI report" }
+        }
+      }
+    },
+    "/parcels/{id}/ndbi": {
+      "get": {
+        "summary": "Calculate parcel NDBI built-up index",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Current vs baseline NDBI report" }
+        }
+      }
+    },
+    "/parcels/{id}/ulpin": {
+      "get": {
+        "summary": "Resolve parcel ULPIN Bhu-Aadhaar identity",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "ULPIN validation record" }
+        }
+      }
+    },
+    "/change-detection/analyze": {
+      "post": {
+        "summary": "Run multi-temporal change detection",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parcelId": { "type": "string" },
+                  "geometry": { "type": "object" },
+                  "dateRange": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Change detection results" }
+        }
+      }
+    },
+    "/mutations/compare": {
+      "post": {
+        "summary": "Compare registered mutation vs observed reality",
+        "responses": {
+          "200": { "description": "Discrepancy scoring and reconciliation result" }
+        }
+      }
+    },
+    "/legal/acts": {
+      "get": {
+        "summary": "List structured land governance acts",
+        "responses": {
+          "200": { "description": "Canonical legal acts with verified citations" }
+        }
+      }
+    },
+    "/legal/analyze-parcel": {
+      "post": {
+        "summary": "Analyze parcel statutory compliance profile",
+        "responses": {
+          "200": { "description": "Statutory restrictions and conflict profile" }
+        }
+      }
+    },
+    "/legal/ask": {
+      "post": {
+        "summary": "RAG legal question answer grounded strictly on cited acts",
+        "responses": {
+          "200": { "description": "Cited legal response" }
+        }
+      }
+    },
+    "/evidence/generate/{caseId}": {
+      "post": {
+        "summary": "Generate SHA-256 sealed Evidence Dossier and QR code",
+        "parameters": [
+          { "name": "caseId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "201": { "description": "Dossier manifest and verification QR" }
+        }
+      }
+    },
+    "/evidence/verify/{caseId}": {
+      "get": {
+        "summary": "Public cryptographic verification of evidence dossier",
+        "security": [],
+        "parameters": [
+          { "name": "caseId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Verification status and document hashes" }
+        }
+      }
+    },
+    "/field-observations": {
+      "post": {
+        "summary": "Ingest Bhu-Mitra field observation with idempotency",
+        "responses": {
+          "201": { "description": "Recorded field observation" }
+        }
+      }
+    },
+    "/field-sync": {
+      "post": {
+        "summary": "Batch sync offline field observations",
+        "responses": {
+          "200": { "description": "Batch synchronization summary" }
+        }
+      }
+    },
+    "/field-observations/{id}/align": {
+      "post": {
+        "summary": "Evaluate ground GPS walk vs satellite boundary alignment",
+        "responses": {
+          "200": { "description": "Alignment score and drift metrics" }
+        }
+      }
+    },
+    "/cases": {
+      "get": {
+        "summary": "List land governance cases",
+        "responses": {
+          "200": { "description": "Active enforcement cases" }
+        }
+      },
+      "post": {
+        "summary": "Initiate new enforcement case",
+        "responses": {
+          "201": { "description": "Initiated case record" }
+        }
+      }
+    },
+    "/risk/evaluate": {
+      "post": {
+        "summary": "Calculate weighted composite risk score (0-100)",
+        "responses": {
+          "200": { "description": "Risk score, severity, and factor breakdown" }
+        }
+      }
+    }
+  }
+}

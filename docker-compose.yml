@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL with PostGIS Geospatial Extension
+  postgis:
+    image: postgis/postgis:16-3.4-alpine
+    container_name: landscope_postgis
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: landscope_gov
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+      - ./backend/migrations/001_postgis_landscope_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Redis Cache & Job Broker
+  redis:
+    image: redis:7-alpine
+    container_name: landscope_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # 3. LANDScope Express REST API Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: landscope_backend
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DEMO_MODE: "false"
+      DATABASE_URL: postgresql://postgres:postgrespassword@postgis:5432/landscope_gov
+      JWT_SECRET: sovereign_landscope_jwt_secret_key_change_in_production_2026
+      PUBLIC_BASE_URL: http://localhost:3000
+      MAP_PROVIDER: openstreetmap
+      SATELLITE_PROVIDER: copernicus
+      STORAGE_PROVIDER: local
+      STORAGE_LOCAL_DIR: /app/uploads
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      postgis:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # 4. LANDScope Next.js Frontend Web Application
+  frontend:
+    build:
+      context: ./LandScope
+      dockerfile: Dockerfile
+    container_name: landscope_frontend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgis_data:
+  redis_data:
+  backend_uploads:
